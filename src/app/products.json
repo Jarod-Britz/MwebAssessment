@@ -1,0 +1,41 @@
+[ 
+  {  
+    "productCode": "FTTH-VUMAREACH-RECURRING-20MBPS", 
+    "productName": "Vuma Reach 20Mbps Uncapped Recurring", 
+    "productRate": 399, 
+    "provider": "Vuma Reach",
+    "url":"https://www.mweb.co.za/media/images/providers/provider-vuma.png"
+  }, 
+    
+  { 
+    "productCode": "FTTH-VUMAREACH-RECURRING-40MBPS-PROMO", 
+    "productName": "Vuma Reach 40Mbps Uncapped Recurring Promo", 
+    "productRate": 529, 
+    "provider": "Vuma Reach",
+    "url":"https://www.mweb.co.za/media/images/providers/provider-vuma.png"
+  },
+
+  { 
+    "productCode": "MITCHELLS-FIBRE-PREPAID", 
+    "productName": "Mitchells Fibre with MWEB - Amber Orders", 
+    "productRate": 399, 
+    "provider": "Mitchells Fibre",
+    "url":"https://www.mweb.co.za/media/images/providers/provider-mitchells.png" 
+  }, 
+  
+  { 
+    "productCode": "FTTH-VUMAREACH-28DAY-20MBPS", 
+    "productName": "Vuma Reach 28 Day Base Product", 
+    "productRate": 399, 
+    "provider": "Vuma Reach",
+    "url":"https://www.mweb.co.za/media/images/providers/provider-vuma.png" 
+  }, 
+  
+  { 
+    "productCode": "FTTH-VUMAREACH-28DAY-40MBPS-PROMO", 
+    "productName": "Vuma Reach 40Mbps 28 Day Base Product Promo", 
+    "productRate": 529, 
+    "provider": "Vuma Reach",
+    "url":"https://www.mweb.co.za/media/images/providers/provider-vuma.png" 
+  } 
+]

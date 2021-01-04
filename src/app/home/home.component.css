@@ -1,0 +1,78 @@
+
+.logos{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 3% 10%;
+}
+.logos div{
+    margin: 1%;
+    text-align: center;
+    margin: 0 auto;
+}
+.logos div img{
+    width: 80px;
+}
+  
+.example-margin {
+    margin: 0 10px;
+}
+
+.grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    
+}
+.container{
+    margin: 0 15%;
+}
+mat-form-field{
+    margin: 2%;
+}
+.buttons button{
+    background-color: darkblue !important;
+    color: white;
+}
+.buttons button:active{
+    background-color: white !important;
+    color: grey !important;
+    border: solid 1px grey !important;
+}
+
+
+.products{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    margin: 2%;
+    
+}
+.products div{
+    border: solid black 1px;
+    margin: 2%;
+    padding: 2%;
+}
+
+
+@media screen and (max-width: 750px){
+    .grid{
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
+        
+    }
+    .container{
+        margin: 0;
+        text-align: center;
+    }
+    .products{
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
+        margin: 2%;
+        
+    }
+    .buttons{
+        margin: 0 auto !important;
+    }
+}

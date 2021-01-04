@@ -1,0 +1,92 @@
+<h1 style="text-align: center; font-size: 40px; margin-top: 3%;">Fibre Products</h1>
+<p style="text-align: center;">Select a Fibre infrastructure provider below, browse the products available and complete
+  a coverage search</p>
+
+<div class="logos">
+  <div *ngFor="let image of images">
+    <img src={{image.url}} alt="">
+  </div>
+</div>
+
+
+<div class="container">
+
+  
+
+  <div class="grid">
+
+    <div>
+      <h2>Filter By:</h2>
+
+      <mat-form-field appearance="basic" style="width: 100px; height: 50px; border: solid 1px black;">
+        <mat-label>Speed</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let price of priceRanges; let i = index" [value]="i" (click)="thisHere = i"
+            id="defaultCheck1">
+            {{price.label}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+
+      <mat-form-field appearance="basic" style="width: 100px; height: 50px; border: solid 1px black;">
+        <mat-label>Price</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let range of priceRanges; let i = index" [value]="i" (click)="filterByPriceRanges()"
+            id="defaultCheck1">
+            {{range.label}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <h2>Deal Type:</h2>
+      <div style="display: flex; flex-wrap: wrap;">
+        <div class="buttons " *ngFor="let campaign of campaigns; let i = index" style="margin: 2%;">
+          <button class="active" style="width: 150px; height: 50px;"
+            (click)="changeCampaign(campaign)">{{campaign.name}}</button>
+        </div>
+      </div>
+
+      </div>
+
+    </div>
+
+    <h1 style="text-align: center; font-size: 40px; margin-top: 5%;">Products</h1>
+
+    <div class="products">
+      <div *ngFor="let products of productsArr">
+        <h1>{{products.productName}}</h1>
+        <h2>{{products.provider}}</h2>
+        <h1>R{{products.productRate}}</h1>
+        <div style="text-align: right; border:  none;">
+        <button style="background: linear-gradient(to right, red, orange); height: 40px; width: 150px; color: white; border: none;">View more</button>
+      </div>
+      </div>
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+
+  <!-- <div class="form-check" *ngFor="let price of priceRanges; let i = index">
+  <input class="form-check-input" type="checkbox" [value]="i" (click)="thisHere = i" id="defaultCheck1">
+  <label class="form-check-label" for="defaultCheck1">
+    {{price.label}}
+  </label>
+</div>
+
+<div *ngFor="let campaign of campaigns; let i = index">
+  <button class="btn btn-primary" (click)="changeCampaign(campaign)">{{campaign.name}}</button>
+</div>
+
+<div *ngFor="let provider of providerInfo">
+  <button class="btn btn-secondary">{{provider.code}}</button>
+</div>
+{{productsArr | json}} -->
