@@ -40,8 +40,14 @@ export class HomeComponent implements OnInit {
   productsArr = [];
   filteredProductsArr = [];
 
+  filteredByPriceArr = [];
+  filteredByProviderArr = [];
+
 
   priceRanges = [{min: 0, max: 699, label: 'R0 - R699'}, {min: 700, max: 999, label: 'R700 - R999'}, {min: 1000, max: 9999, label: 'R1000+'}];
+
+  priceRangeFilter = [];
+  providerFilter = [];
 
   providerInfo = [
     {
@@ -66,7 +72,7 @@ export class HomeComponent implements OnInit {
     },
     {
       code: 'openserve',
-      name: 'Openserve',
+      name: 'OpenServe',
       url: `${this.logoBaseURL}/provider-openserve.png`
     },
     {
@@ -126,8 +132,6 @@ getAllData() {
         if (campaignsResponse && campaignsResponse['campaigns']) {
             this.campaigns = campaignsResponse['campaigns'];
             this.getProducts(this.campaigns[0]);
-            console.log(this.productsArr);
-            this.prices = this.productsArr;
             
         }
       },
@@ -158,7 +162,8 @@ getProducts(selectedCampaign) {
 
   getSummarizedProduct(product) {
     const subcategory = product.subcategory.replace('Uncapped', '').replace('Capped', '').trim();
-    return {productCode: product.productCode, productName: product.productName, productRate: product.productRate, provider: subcategory}
+    const image = this.providerInfo.find(provider => provider.name === subcategory).url;
+    return {productCode: product.productCode, productName: product.productName, productRate: product.productRate, provider: subcategory, image: image}
   }
 
   changeCampaign (clickedCampaign) {
