@@ -25,12 +25,6 @@ interface Products {
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  images: Providers[] = images;
-  products: Products[] = products;
-  summarizedProducts;
-  productPrices;
-  prices;
-
   baseUrl = "https://apigw.mweb.co.za/prod/baas/proxy";
   logoBaseURL = "https://www.mweb.co.za/media/images/providers"
   campaignsURL = "/marketing/campaigns/fibre?channels=120&visibility=public";
@@ -43,11 +37,12 @@ export class HomeComponent implements OnInit {
   filteredByPriceArr = [];
   filteredByProviderArr = [];
 
-
   priceRanges = [{min: 0, max: 699, label: 'R0 - R699'}, {min: 700, max: 999, label: 'R700 - R999'}, {min: 1000, max: 9999, label: 'R1000+'}];
 
   priceRangeFilter = [];
   providerFilter = [];
+
+  providerFilterCounter = 0;
 
   providerInfo = [
     {
@@ -115,33 +110,37 @@ export class HomeComponent implements OnInit {
       name: 'Vuma Reach',
       url: `${this.logoBaseURL}/provider-vuma.png`
     }
-  ];
-
-
-  constructor(public campaignsService:CampaignsService, private httpClient: HttpClient) { }
+  ];  
+  
+  constructor(private httpClient: HttpClient) { }
 
   ngOnInit(): void {
     this.getAllData();
-  }
+
+    }
+
+  
+  getAllData() {
 
 
-getAllData() {
-  this.httpClient.get(`${this.baseUrl}${this.campaignsURL}`)
+    this.httpClient
+    .get(`${this.baseUrl}${this.campaignsURL}`)
     .subscribe( campaignsResponse => {
 
         if (campaignsResponse && campaignsResponse['campaigns']) {
             this.campaigns = campaignsResponse['campaigns'];
             this.getProducts(this.campaigns[0]);
-            
+
         }
       },
       error => {
         this.campaigns = null;
       }
     );
+    
 }
 
-getProducts(selectedCampaign) {
+  getProducts(selectedCampaign) {
   this.productsArr = [];
   this.selectedCampaign = selectedCampaign;
 
@@ -149,12 +148,13 @@ getProducts(selectedCampaign) {
   const promcodeProductsURL = `${this.baseUrl}/marketing/products/promos/${promocodes.join(',')}?sellable_online=true`;
 
   this.httpClient.get(promcodeProductsURL).subscribe( responseData => {
-    for (let response of responseData) {
+    for (let response of Object.values(responseData)) {
       for(let product of response.products) {
         const summarizedProduct = this.getSummarizedProduct(product);
         this.productsArr.push(summarizedProduct);
-        this.productPrices = summarizedProduct.productRate;
-        
+        this.filteredProductsArr = this.productsArr;
+        this.filteredByPriceArr = this.productsArr;
+        this.filteredByProviderArr = this.productsArr; 
       }
     }
   });
@@ -162,6 +162,7 @@ getProducts(selectedCampaign) {
 
   getSummarizedProduct(product) {
     const subcategory = product.subcategory.replace('Uncapped', '').replace('Capped', '').trim();
+    console.log(subcategory);
     const image = this.providerInfo.find(provider => provider.name === subcategory).url;
     return {productCode: product.productCode, productName: product.productName, productRate: product.productRate, provider: subcategory, image: image}
   }
@@ -171,23 +172,24 @@ getProducts(selectedCampaign) {
       for(let campaign of this.campaigns) {
         if (campaign.code === clickedCampaign.code) {
           this.selectedCampaign = clickedCampaign;
+          this.providerFilter = [];
           this.getProducts(this.selectedCampaign);
-          
+          this.filter(null, null, null, true);
+          this.providerFilterCounter = 0;
         }
       }
     }
   }
 
-
-  filter(provider, min, max) {
+  filter(provider, min, max, first ?: boolean) {
     this.filteredProductsArr = [];
 
     if (min || max) {
     this.filterProductsPrice(min, max);
     }
     if (provider) {
-    this.filterProductsProvider(provider);
-    }
+    this.filterProductsProvider(provider, first);
+    }  
 
     for (const product of this.productsArr) {
       if (this.filteredByPriceArr.includes(product) &&  this.filteredByProviderArr.includes(product)) {
@@ -223,15 +225,21 @@ getProducts(selectedCampaign) {
         this.filteredByPriceArr.push(product);
       }
     }
-
+    
     if (this.priceRangeFilter.length <= 0) {
       this.filteredProductsArr = this.productsArr;
     }
 
   }
 
-  filterProductsProvider (provider) {
-    this.providerFilter = [];
+  filterProductsProvider (provider, first) {
+    this.filteredByProviderArr = [];
+    
+    if (this.providerFilterCounter === 0) {
+      this.providerFilter = [];
+    }
+        
+    this.providerFilterCounter ++;
 
     if (!this.providerFilter.includes(provider)) {
       this.providerFilter.push(provider);
@@ -250,10 +258,5 @@ getProducts(selectedCampaign) {
       this.filteredProductsArr = this.productsArr;
     }
     }
-
-
-  
-  
   }
-
 }

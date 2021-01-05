@@ -1,102 +1,51 @@
-<h1 style="text-align: center; font-size: 40px; margin-top: 3%;">Fibre Products</h1>
-<p style="text-align: center; margin-top: 2%;">Select a Fibre infrastructure provider below, browse the products
-  available and complete
-  a coverage search</p>
-
-<div class="logos">
-  <div *ngFor="let image of images">
-    <img src={{image.url}} alt="">
-  </div>
-</div>
-
-
 <div class="container">
-
-
-
-  <div class="grid">
-
-    <div>
-      <p>Filter By:</p>
-
-      <mat-form-field appearance="basic" style="width: 100px;  border: solid 1px black;">
-        <mat-label>Speed</mat-label>
-        <mat-select>
-          <mat-option *ngFor="let price of priceRanges; let i = index" [value]="i" (click)="thisHere = i"
-            id="defaultCheck1">
-            {{price.label}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-
-      <mat-form-field appearance="basic" style="width: 100px; height: 50px; border: solid 1px black;">
-        <mat-label>Price</mat-label>
-        <mat-select>
-          <mat-option *ngFor="let range of priceRanges; let i = index" [value]="i" (click)="filterProductsPrice()"
-            id="defaultCheck1">
-            <mat-checkbox class="example-margin">{{range.label}}</mat-checkbox>
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-
+  <div class="header">
+  <h1 class="heading">Fibre Products</h1>
+  <p>Select a Fibre infrastructure provider below, browse the products
+    available and complete
+    a coverage search</p>
     </div>
-
-    <div>
-      <h2>Deal Type:</h2>
-      <div style="display: flex; flex-wrap: wrap;">
-        <div class="buttons " *ngFor="let campaign of campaigns; let i = index" style="margin-right: 2%;">
-          <button class="active" style="width: 150px; height: 50px;"
-            (click)="changeCampaign(campaign)">{{campaign.name}}</button>
-        </div>
-      </div>
-
-    </div>
-
   </div>
-
-  <h1 style="text-align: center; font-size: 40px; margin-top: 5%;">Products</h1>
-
-  <div class="products">
-    <div class="cards" *ngFor="let products of productsArr">
-      <h2 style="color: #404041; font-weight: 700; font-size: 20px;">{{products.productName}}</h2>
-      <h2>{{products.provider}}</h2>
-      <div class="three">
-        <h1 style="color: #58595B; font-weight: 600; font-size: 30px;">R{{products.productRate}}</h1>
-        <div style="text-align: center;">
-          <img style="width: 80px;" [src]="products.image" alt="">
-        </div>
-        <div style="text-align: right; border:  none;">
-          <button class="more"
-            style="background-image: linear-gradient(to right,#CE1926 0%,#F8811B 51%,#F8811B 100%); box-shadow: 0 4px 15px 0 rgba(252,104,110,0.75); height: 40px; width: 150px; color: white; border: none;">View
-            more</button>
-        </div>
-      </div>
+  
+  <div class="logos">
+    <div *ngFor="let image of providerInfo" [class.filter-by-provider-image]="!providerFilter || (providerFilter.length > 0 && !providerFilter.includes(image.name))">
+      <img [src]="image.url" (click)="filter(image.name, null, null)"/>
     </div>
   </div>
 
-</div>
-
-
-
-
-
-
-
-
-<!-- <div class="form-check" *ngFor="let price of priceRanges; let i = index">
-  <input class="form-check-input" type="checkbox" [value]="i" (click)="thisHere = i" id="defaultCheck1">
-  <label class="form-check-label" for="defaultCheck1">
-    {{price.label}}
-  </label>
-</div>
-
-<div *ngFor="let campaign of campaigns; let i = index">
-  <button class="btn btn-primary" (click)="changeCampaign(campaign)">{{campaign.name}}</button>
-</div>
-
-<div *ngFor="let provider of providerInfo">
-  <button class="btn btn-secondary">{{provider.code}}</button>
-</div>
-{{productsArr | json}} -->
+  <div class="container">
+  
+    <div class="grid">
+  
+      <div>
+        <h2>Filter By:</h2>
+  
+        <mat-form-field appearance="basic">
+          <mat-label>Price</mat-label>
+          <mat-select multiple>
+          <mat-option *ngFor="let price of priceRanges; let i = index" [value]="i" (click)="filter(null, price.min, price.max)"
+          id="defaultCheck1">
+          {{price.label}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+  
+      </div>
+  
+      <div>
+        <h2>Deal Type:</h2>
+        <div class="deals">
+          <div class="buttons" *ngFor="let campaign of campaigns; let i = index">
+            <button [class.active]= "selectedCampaign.code.includes(campaign.code)"
+              (click)="changeCampaign(campaign)">{{campaign.name}}</button>
+          </div>
+        </div>
+  
+      </div>
+  
+    </div>
+  
+    <app-product-card [products]="filteredProductsArr"></app-product-card>
+  
+  </div>
+  
