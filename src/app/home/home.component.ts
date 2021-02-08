@@ -162,8 +162,12 @@ export class HomeComponent implements OnInit {
 
   getSummarizedProduct(product) {
     const subcategory = product.subcategory.replace('Uncapped', '').replace('Capped', '').trim();
-    console.log(subcategory);
-    const image = this.providerInfo.find(provider => provider.name === subcategory).url;
+    console.log(this.providerInfo);
+    let image;
+    const provider = this.providerInfo.find(provider => provider.name === subcategory);
+    if (provider && provider.url) {
+      image = provider.url;
+    }
     return {productCode: product.productCode, productName: product.productName, productRate: product.productRate, provider: subcategory, image: image}
   }
 
